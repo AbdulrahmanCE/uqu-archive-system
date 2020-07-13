@@ -1,0 +1,62 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #drawer
+      class="sidenav"
+      fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async) && !isHomePage"
+    >
+      <mat-toolbar>ابحث...</mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/projects/list" (click)="isHandSet() ? drawer.close() : false">تصفح النماذج</a>
+        <a mat-list-item routerLink="/projects/new" (click)="isHandSet() ? drawer.close() : false">أضف نموذج</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="nav-side-container">
+      <mat-progress-bar *ngIf="(barLoading$ | async)" mode="query" style="position: fixed; z-index: 10;"></mat-progress-bar>
+      <mat-toolbar color="primary" [ngClass]="{'nav-home': isHomePage}">
+        
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="(isHandset$ | async) || true"
+        >
+          <mat-icon
+            aria-label="Side nav toggle icon"
+            class="burger"
+            [ngClass]="{'rotate-burger': drawer.opened}"
+            >menu</mat-icon
+          >
+        </button>
+        <div class="logo-container" routerLink="/home">
+          <img src="../../../assets/logo/uqu-logo-white.png" alt="شعار" class="logo"/>
+          <span class="logo-text">أرشف</span>
+        </div>
+
+        <div *ngIf="!(isHandset$ | async)" class="nav-links">
+          <button mat-button class="nav-button-link" routerLink="/projects/new">
+            <mat-icon>add</mat-icon>
+            أضف نموذج
+          </button>
+
+          <button mat-button class="nav-button-link" routerLink="/projects/list">
+            <mat-icon>layers</mat-icon>
+            تصفح النماذج
+          </button>
+        </div>
+
+        <span class="spacer">
+
+        </span>
+      </mat-toolbar>
+      
+      <router-outlet></router-outlet>
+      <div class="ver-spacer"></div>
+      <footer >
+        <p class="text-center text-white pt-3 font-weight-bold">جميع الحقوق محفوظة &copy;</p>
+      </footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

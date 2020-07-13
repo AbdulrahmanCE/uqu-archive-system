@@ -1,0 +1,55 @@
+<div class="container">
+    <mat-card [@animate]="{
+        value: '*',
+        params: { delay: 150 + 'ms', y: '50px' }
+      }" class="my-4">
+      <div class="row">
+        <div class="col-12">
+          <mat-card-header class="border-bottom mb-2">
+            <mat-card-title class="font-weight-bold">تحديد عناوين النموذج</mat-card-title>
+          </mat-card-header>
+        </div>
+      </div>
+      <mat-card-content class="m-2 row justify-content-center">
+  
+        <!-- Form title -->
+        <div class="col-12 d-flex">
+          <image-cropper
+            [imageURL]="imgSrc"
+            [maintainAspectRatio]="false"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+          ></image-cropper>
+        </div>
+
+        <hr>
+
+        <div class="col-12 d-flex">
+          <button mat-raised-button color="primary" type="button" class="row cbtn" (click)="onAddBtnClick()">
+            <span class="col">إضافة</span>
+          </button>
+
+          <div class="spacer"></div>
+
+          <button mat-raised-button type="button" class="row cbtn btn-gold" (click)="onSendBtnClick()">
+            <span class="col">إرسال</span>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <div class="mb-4">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let label of (form$ | async).labels">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{label.label}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="lbl-img-container">
+            <img [src]="label.croppedImgBase64" alt="label.label" class="lbl-img">
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>

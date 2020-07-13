@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>إضافة عنوان لجزء من النموذج</h2>
+<mat-dialog-content>
+    <mat-form-field class="w-100">
+        <input #labelInput matInput placeholder="أدخل عنوان القسم" [formControl]="label" required/>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" type="button" [mat-dialog-close]="{label: label.value}" [disabled]="label.invalid">إضافة</button>
+    <button mat-button mat-dialog-close>إلغاء</button>
+</mat-dialog-actions>

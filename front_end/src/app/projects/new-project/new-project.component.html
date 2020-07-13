@@ -1,0 +1,50 @@
+<div class="container">
+  <mat-card [@animate]="{
+      value: '*',
+      params: { delay: 150 + 'ms', y: '50px' }
+    }" class="mt-4">
+    <div class="row">
+      <div class="col-12">
+        <mat-card-header class="border-bottom mb-2">
+          <mat-card-title class="font-weight-bold">إضافة نموذج جديد</mat-card-title>
+        </mat-card-header>
+      </div>
+    </div>
+    <mat-card-content class="m-2 row justify-content-center">
+
+      <!-- Form title -->
+      <div class="col-12 d-flex">
+        <mat-form-field class="w-100">
+          <input matInput placeholder="أدخل عنوان النموذج" [formControl]="title" required />
+          <mat-error *ngIf="title.invalid">عنوان النموذج ضروري لإكمال الطلب</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Form images -->
+      <div class="col-12 d-flex mb-4">
+          <input id="fileupload" class="d-none" type="file" multiple accept="image/*" (change)="onImagesSelected($event)"/>
+          <button mat-raised-button color="primary" type="button">
+            <label for="fileupload" class="m-0 cbtn">
+              اختر صور النماذج
+            </label>
+          </button>
+      </div>
+
+      <div class="col-12 d-flex mb-4" *ngIf="images && images.length">
+        <span>عدد الصور المرفوعة: {{images.length}}</span>
+      </div>
+
+      <div class="col d-flex">
+        <button mat-raised-button color="primary" type="button" class="row cbtn" (click)="onNextBtnClicked()"
+          [disabled]="btnLoading || newProjectForm.invalid || !images?.length"
+          title="{{ newProjectForm.invalid ? 'أكمل الحقول المطلوبة لتتمكن من الإضافة' : 'إضافة النموذج'}}">
+          <span *ngIf="btnLoading" class="col">جارِ الإضافة..</span>
+          <span *ngIf="btnLoading" class="col">
+            <mat-spinner class="d-inline-block mt-2" diameter="20" color="primary"></mat-spinner>
+          </span>
+          <span *ngIf="!btnLoading" class="col">إضافة</span>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

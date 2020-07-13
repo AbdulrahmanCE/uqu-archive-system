@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+* {
+  font-family: 'Cairo', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  text-align: right;
+}
+
+.text-my {
+  color: #267c85;
+}
+
+.text-my-s {
+  color: #ceaf6e;
+}
