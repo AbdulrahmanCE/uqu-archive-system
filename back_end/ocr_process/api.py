@@ -44,17 +44,42 @@ class FileUploadView(APIView):
     parser_class = (FileUploadParser,)
 
     def post(self, request, *args, **kwargs):
-
         file_serializer = FileSerializer(data=request.data)
-
         if file_serializer.is_valid():
-
             file_serializer.save()
             # path = os.path.join(BASE_DIR, file_serializer.data['file'][1:])
             path = str(file_serializer.data['file'][1:])
             if path.endswith('.pdf') or path.endswith('.PDF'):
                 x = threading.Thread(target=pdf2image, daemon=True, args=(path,))
                 x.start()
+                # pdf2image(path)
+                # os.remove(path)
+            else:
+                os.remove(path)
+                return Response({"FormatError": "The uploaded file must be in pdf format"},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            # p = start(file_serializer.data['file'][1:])
+
+            # return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+            return Response({'state': "File uploaded successfully, please wait until the process finish"},
+                            status=status.HTTP_200_OK)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FileUploadAPI(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = FileSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save()
+            # path = os.path.join(BASE_DIR, file_serializer.data['file'][1:])
+            path = str(file_serializer.data['file'][1:])
+            if path.endswith('.pdf') or path.endswith('.PDF'):
+                # x = threading.Thread(target=pdf2image, daemon=True, args=(path,))
+                # x.start()
                 pdf2image(path)
                 # os.remove(path)
             else:
