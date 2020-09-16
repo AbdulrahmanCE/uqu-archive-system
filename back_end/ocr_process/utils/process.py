@@ -76,8 +76,8 @@ def ocr(img, oem=1, psm=3):
     """
     config = ('-l ara --oem {oem} --psm {psm}'.format(oem=oem, psm=psm))
     # config = ('-l eng --tessdata-dir "/usr/share/tesseract-ocr/tessdata" --oem {oem} -- psm {psm}'.format(oem=oem,psm=psm))
-
     img = Image.fromarray(img)
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Abdulrahman Talaat\AppData\Local\Tesseract-OCR\tesseract.exe'
     text = pytesseract.image_to_string(img, config=config)
     return text
 

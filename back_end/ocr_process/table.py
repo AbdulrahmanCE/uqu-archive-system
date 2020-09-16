@@ -25,7 +25,7 @@ def text_corrector(_text):
     return _text
 
 
-def detect(img_path, debug, rotate=False):
+def detect(img_path, debug=False, rotate=False):
     counter = 0
     flag = False
     if rotate:
@@ -33,10 +33,11 @@ def detect(img_path, debug, rotate=False):
         image = cv2.imread('data/after_rotate.jpg')
     else:
         image = cv2.imread(img_path)
-
+    # print(img_path, '*'*50)
     # Apply several filters to the image for better results in OCR
-    # image = preprocess_for_ocr(image, 3)
+    image = preprocess_for_ocr(image, 10)
 
+    print(image.shape)
     if debug:
         cv2.imwrite('./data/output-opt.png', image)
 
@@ -48,7 +49,6 @@ def detect(img_path, debug, rotate=False):
     # a dictionary
     text_dict = json.load(f)['boxes']
     # text_dict = SelectObjects().get_objects(image.copy())
-    print(type(text_dict))
     text_blob_list = []
     labels = []
     for i in text_dict:
@@ -72,7 +72,7 @@ def detect(img_path, debug, rotate=False):
 
         if debug:
             img_counter += 1
-            word_image = crop(image, blob_cord, "./data/result/{}.jpg".format(img_counter), 0.005, True)
+            word_image = crop(image, blob_cord, "ocr_process/result/{}.jpg".format(img_counter), 0.005, True)
             print(blob_cord, img_counter)
         else:
             word_image = crop(image, blob_cord, "./", 0.005, False)
@@ -111,12 +111,12 @@ def detect(img_path, debug, rotate=False):
 
 
 def start(path):
-    output_text = detect(path, False)
-    print(output_text)
+    output_text = detect(path, True)
+
     return output_text
 
 
 if __name__ == '__main__':
     # load_text_model()
-    text = detect('media\Abdulrahman.jpg', True)
+    text = detect('media\output-opt.png', True)
     print(text)
