@@ -1,0 +1,154 @@
+
+.sidenav-container {
+  height: 100%;
+}
+
+.nav-side-container {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: #eee;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+  top: 0;
+  z-index: 2;
+  transition: 1s;
+}
+
+// styling nav bar on home page
+.nav-home {
+  background: transparent;
+  position: absolute !important;
+  box-shadow: none !important;
+  .nav-links {
+    .nav-button-link {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  .nav-buttons {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// logo styles
+.logo-container {
+  display: flex;
+  cursor: pointer;
+  &:active, &:focus {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.logo {
+  display: inline-block;
+  height: 70%;
+  width: auto;
+  margin: 0.7rem;
+  flex-basis: 1;
+}
+
+.logo-text {
+  display: inline-block;
+  color: #ceaf6e;
+  font-weight: bolder;
+  margin: 0.7rem;
+  margin-top: 0.9rem;
+  flex-basis: 1;
+}
+
+.burger {
+  transition: 0.3s;
+}
+
+.rotate-burger {
+  transform: rotate(-90deg);
+}
+
+mat-icon {
+  transition: .1s;
+}
+
+.mat-toolbar {
+  div {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.nav-links {
+  margin: 0 1rem;
+  .nav-button-link {
+    padding: 0rem 1rem;
+    display: inline-block;
+    color: #eee;
+    text-decoration: none;
+    height: 100%;
+    // border-radius: 0;
+    font-size: 1rem;
+    &:hover {
+      background-color: #267c85;
+      mat-icon {
+        transform: scale(1.15);
+      }
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-buttons {
+  margin: 0 .4rem;
+  margin-top: .7rem;
+  padding: .3rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  border: .05rem #aaa solid;
+  transition: .3s;
+  &:hover {
+    background-color: #267c85;
+    border-radius: 1rem;
+  }
+  mat-icon {
+    margin-left: .5rem;
+  }
+}
+
+.avatar-container {
+  overflow: hidden;
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: .3rem;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+    margin-top: 40%;
+  }
+}
+
+.ver-spacer {
+  flex-grow: 1;
+}
+
+footer {
+  background-color: #003740;
+}

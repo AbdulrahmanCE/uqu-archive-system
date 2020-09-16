@@ -1,0 +1,20 @@
+.cbtn {
+    cursor: pointer;
+  &:disabled {
+    background-color: #80b2b7;
+  }
+}
+
+.drag-drop {
+  width: 100%;
+  height: 200px;
+  border: 1px dashed #80b2b779;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    text-align: center;
+    vertical-align: middle;
+    color: #80b2b779;
+  }
+}
