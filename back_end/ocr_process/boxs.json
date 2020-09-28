@@ -45,5 +45,55 @@
       ],
       "type": "string"
     }
+  ],
+  "B_boxes": {
+    "name": "some name",
+    "box": [
+    {
+      "ID": 1,
+      "label": "name",
+      "box": [
+        3000,
+        1800,
+        4580,
+        2000
+      ],
+      "box_center": [
+        1051,
+        77
+      ],
+      "type": "string"
+    },
+    {
+      "ID": 2,
+      "label": "department",
+      "box": [
+        1700,
+        2150,
+        2330,
+        2300
+      ],
+      "box_center": [
+        551.5,
+        115.0
+      ],
+      "type": "string"
+    },
+    {
+      "ID": 2,
+      "label": "collage",
+      "box": [
+        2450,
+        2140,
+        3250,
+        2300
+      ],
+      "box_center": [
+        198.5,
+        113.0
+      ],
+      "type": "string"
+    }
   ]
+  
 }
