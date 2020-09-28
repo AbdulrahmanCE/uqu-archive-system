@@ -36,7 +36,7 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
     # print(img_path, '*'*50)
     # Apply several filters to the image for better results in OCR
     image = preprocess_for_ocr(image, 1)
-    print(image.shape)
+    # print(image.shape)
     if debug:
         cv2.imwrite('./data/output-opt.png', image)
 
@@ -72,16 +72,17 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
         if debug:
             img_counter += 1
             word_image = crop(image, blob_cord, "ocr_process/result/{}.jpg".format(img_counter), 0.005, True)
-            print(blob_cord, img_counter)
+            # print(blob_cord, img_counter)
         else:
             word_image = crop(image, blob_cord, "./", 0.005, False)
         # word_image = preprocess_for_ocr(word_image)
         text = ocr(word_image, 1, 7)
 
         if debug:
-            print('before correction: ', "text")
+            pass
+            # print('before correction: ', "text")
         text = text_corrector(text)
-        print('after correct: ', "text")
+        # print('after correct: ', "text")
         if not text:
             text = ""
         center_x = (blob_cord[0] + blob_cord[2]) / 2

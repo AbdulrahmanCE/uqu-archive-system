@@ -26,3 +26,11 @@ class LabelInDocument(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.document, self.name)
+
+
+class Tasks(models.Model):
+    unique_name = models.TextField(unique=True)
+    is_done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.unique_name
