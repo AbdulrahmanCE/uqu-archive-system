@@ -9,7 +9,7 @@ class File(models.Model):
 
 
 class DocumentModel(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -19,10 +19,10 @@ class LabelInDocument(models.Model):
     document = models.ForeignKey(DocumentModel, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     content_type = models.CharField(max_length=10)
-    start_x = models.IntegerField()
-    start_y = models.IntegerField()
-    end_x = models.IntegerField()
-    end_y = models.IntegerField()
+    start_x = models.FloatField()
+    start_y = models.FloatField()
+    end_x = models.FloatField()
+    end_y = models.FloatField()
 
     def __str__(self):
         return '{} {}'.format(self.document, self.name)

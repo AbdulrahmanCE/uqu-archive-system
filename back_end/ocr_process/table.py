@@ -35,7 +35,7 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
         image = cv2.imread(img_path)
     # print(img_path, '*'*50)
     # Apply several filters to the image for better results in OCR
-    image = preprocess_for_ocr(image, 3)
+    image = preprocess_for_ocr(image, 1)
     print(image.shape)
     if debug:
         cv2.imwrite('./data/output-opt.png', image)
@@ -82,20 +82,21 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
             print('before correction: ', "text")
         text = text_corrector(text)
         print('after correct: ', "text")
-        if text:
-            center_x = (blob_cord[0] + blob_cord[2]) / 2
-            center_y = (blob_cord[1] + blob_cord[3]) / 2
-            box_center = (center_x, center_y)
+        if not text:
+            text = ""
+        center_x = (blob_cord[0] + blob_cord[2]) / 2
+        center_y = (blob_cord[1] + blob_cord[3]) / 2
+        box_center = (center_x, center_y)
 
-            new_location = {
-                'label': labels[label_counter],
-                'bbox': blob_cord,
-                'text': text,
-                'box_center': box_center,
-                'string_type': string_type(text)
-            }
-            label_counter += 1
-            text_location_list.append(new_location)
+        new_location = {
+            'label': labels[label_counter],
+            'bbox': blob_cord,
+            'text': text,
+            'box_center': box_center,
+            'string_type': string_type(text)
+        }
+        label_counter += 1
+        text_location_list.append(new_location)
 
     # Spatial algorithm that maps all boxes according to their location and append the string
     for text_dict in text_location_list:
@@ -110,7 +111,7 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
 
 
 def start_ocr(path, boxes_and_labels):
-    output_text = detect(path, boxes_and_labels, True)
+    output_text = detect(path, boxes_and_labels, debug=False)
     return output_text
 
 
