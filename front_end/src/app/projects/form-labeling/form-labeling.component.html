@@ -11,7 +11,7 @@
         </div>
       </div>
       <mat-card-content class="m-2 row justify-content-center">
-  
+
         <!-- Form title -->
         <div class="col-12 d-flex">
           <image-cropper
@@ -37,13 +37,13 @@
         </div>
       </mat-card-content>
     </mat-card>
-    
+
     <div class="mb-4">
       <mat-accordion>
         <mat-expansion-panel *ngFor="let label of (form$ | async).labels">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{label.label}}
+              {{label.name}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div class="lbl-img-container">

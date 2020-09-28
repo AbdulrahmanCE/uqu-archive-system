@@ -1,0 +1,49 @@
+<div class="row mt-5">
+  <mat-card
+    class="col-12 col-md-10 mx-auto"
+    [@animate]="{
+      value: '*',
+      params: { delay: 1 * 150 + 'ms', y: '50px' }
+    }"
+  >
+    <div class="row">
+      <div class="col">
+        <mat-card-header class="border-bottom">
+          <mat-card-title>امسح نموذج</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-1 p-md-4">
+          <!-- Form images -->
+          <div class="col-12 d-flex mb-4">
+            <input
+              id="fileupload"
+              class="d-none"
+              type="file"
+              multiple
+              accept=".pdf"
+              (change)="onDocumentSelected($event)"
+            />
+            <button mat-raised-button color="primary" type="button">
+              <label for="fileupload" class="m-0 cbtn">
+                اختر نموذج
+              </label>
+            </button>
+          </div>
+          <div class="col-12 d-flex mb-4" *ngIf="document">
+            <span>تم اختيار المستند: {{ document.name }}</span>
+          </div>
+          <div class="col d-flex">
+            <button mat-raised-button color="accent" type="button" class="row cbtn" (click)="onPredictBtnClicked($event)"
+              [disabled]="predicting || !document"
+              title="اختر نموذجًا للبدء بالمسح">
+              <span *ngIf="predicting" class="col">جارِ المسح..</span>
+              <span *ngIf="predicting" class="col">
+                <mat-spinner class="d-inline-block mt-2" diameter="20" color="primary"></mat-spinner>
+              </span>
+              <span *ngIf="!predicting" class="col">امسح</span>
+            </button>
+          </div>
+        </mat-card-content>
+      </div>
+    </div>
+  </mat-card>
+</div>

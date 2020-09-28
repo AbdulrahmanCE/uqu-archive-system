@@ -1,8 +1,10 @@
-import { IFormLabel } from './form-label.interface';
+import { IFormLabel } from "./form-label.interface";
 
 export interface IForm {
-    title?: string;
-    images?: File[];
-    labeledImage?: File;
-    labels?: IFormLabel[];
+  name?: string;
+  img_height?: number;
+  img_width?: number;
+  labels?: IFormLabel[];
+  images?: File[];
+  labeledImage?: File;
 }

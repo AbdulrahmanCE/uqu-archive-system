@@ -3,8 +3,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Location } from '@angular/common';
-import { AuthStudentService } from 'src/app/services/auth/auth-student.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { ProgressBarService } from 'src/app/services/progress-bar.service';
 
 @Component({
@@ -18,10 +16,6 @@ export class MainNavComponent implements OnInit {
 
   barLoading$: Observable<boolean> = this.progressBar.loading$;
 
-  isLoggedIn$: Observable<boolean> = this.authService.loggedIn$;
-  isStudent$: Observable<boolean> = this.authService.isStudent$;
-  isAuthority$: Observable<boolean> = this.authService.isAuthority$;
-
   studentLink = "/home";
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -33,7 +27,6 @@ export class MainNavComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     public  location: Location,
-    private authService: AuthService,
     public progressBar: ProgressBarService
   ) {}
 
@@ -58,10 +51,6 @@ export class MainNavComponent implements OnInit {
     this.location.onUrlChange(
       x => this.isHomePage = x === '/home'
     );
-  }
-
-  logout() {
-    this.authService.logout();
   }
 
 }
