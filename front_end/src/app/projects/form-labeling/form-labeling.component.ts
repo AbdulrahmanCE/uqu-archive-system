@@ -1,29 +1,32 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { IForm } from 'src/app/models/form.interface';
-import { Observable } from 'rxjs';
-import { ProjectService } from 'src/app/services/project.service';
-import { IFormLabel } from 'src/app/models/form-label.interface';
-import { SharedAnimations } from 'src/app/shared/animation/shared-animations';
-import { MatDialog } from '@angular/material/dialog';
-import { FormLabelingDialogComponent } from '../form-labeling-dialog/form-labeling-dialog.component';
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { ImageCroppedEvent } from "ngx-image-cropper";
+import { IForm } from "src/app/models/form.interface";
+import { Observable } from "rxjs";
+import { ProjectService } from "src/app/services/project.service";
+import { IFormLabel } from "src/app/models/form-label.interface";
+import { SharedAnimations } from "src/app/shared/animation/shared-animations";
+import { MatDialog } from "@angular/material/dialog";
+import { FormLabelingDialogComponent } from "../form-labeling-dialog/form-labeling-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-form-labeling',
-  templateUrl: './form-labeling.component.html',
-  styleUrls: ['./form-labeling.component.scss'],
-  animations: [SharedAnimations]
+  selector: "app-form-labeling",
+  templateUrl: "./form-labeling.component.html",
+  styleUrls: ["./form-labeling.component.scss"],
+  animations: [SharedAnimations],
 })
 export class FormLabelingComponent implements OnInit {
-
-  form$: Observable<IForm>
+  form$: Observable<IForm>;
   imgSrc: string | ArrayBuffer;
   currentFormLabel: IFormLabel;
 
   constructor(
     private formService: ProjectService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private snack: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.getForm();
@@ -37,53 +40,66 @@ export class FormLabelingComponent implements OnInit {
   loadImage() {
     let imageFile: File = this.formService.getFormImages()[0];
     const fr = new FileReader();
-    fr.onload = () => this.imgSrc = fr.result;
-    fr.readAsDataURL(imageFile)
+    fr.onload = () => (this.imgSrc = fr.result);
+    fr.readAsDataURL(imageFile);
   }
 
   updateLabeledFile(labeledImage: File) {
-    this.formService.updateForm({labeledImage});
+    this.formService.updateForm({ labeledImage });
   }
 
   addLabel() {
-    this.formService.addLabel(this.currentFormLabel)
+    this.formService.addLabel(this.currentFormLabel);
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    console.log("img cropped", event)
+    console.log("img cropped", event);
+    let form: IForm = this.formService.getFormValue();
     const croppedImage = event.base64;
-    const {x1, x2, y1, y2} = event.imagePosition;
+    const { x1, x2, y1, y2 } = event.imagePosition;
+    if (form.img_height === null) {
+      this.formService.updateForm({
+        img_height: y2,
+        img_width: x2,
+      });
+    }
     this.currentFormLabel = {
-      label: "",
+      name: "",
+      content_type: "json",
       croppedImgBase64: croppedImage,
-      x1,
-      x2,
-      y1,
-      y2
+      start_x: x1,
+      end_x: x2,
+      start_y: y1,
+      end_y: y2,
     };
   }
-  
+
   onAddBtnClick() {
     this.openDialog();
   }
 
   onSendBtnClick() {
-    this.formService.createForm();
+    this.formService
+      .createForm()
+      .toPromise()
+      .then((f) => {
+        this.snack.open("تم رفع النموذج بنجاح", "نجاح");
+        this.router.navigateByUrl('/');
+      });
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormLabelingDialogComponent, {
-      width: '250px'
+      width: "250px",
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(!result || !result.label) {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result || !result.label) {
         return;
       }
       const { label } = result;
-      this.currentFormLabel = {...this.currentFormLabel, label}
+      this.currentFormLabel = { ...this.currentFormLabel, name: label };
       this.addLabel();
     });
   }
-
 }

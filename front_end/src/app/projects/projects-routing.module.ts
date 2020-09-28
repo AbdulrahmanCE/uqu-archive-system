@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProjectsListComponent } from './projects-list/projects-list.component';
 import { NewProjectComponent } from './new-project/new-project.component';
-import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { FormLabelingComponent } from './form-labeling/form-labeling.component';
+import { PredictComponent } from './predict/predict.component';
+import { PredictionResultsComponent } from './prediction-results/prediction-results.component';
 
 
 const routes: Routes = [
-  {
-    path: 'list',
-    component: ProjectsListComponent
-  },
   {
     path: 'new',
     component: NewProjectComponent
@@ -20,8 +16,12 @@ const routes: Routes = [
     component: FormLabelingComponent
   },
   {
-    path: ':id',
-    component: ProjectDetailsComponent
+    path: 'predict',
+    component: PredictComponent
+  },
+  {
+    path: 'prediction-results',
+    component: PredictionResultsComponent
   }
 ];
 

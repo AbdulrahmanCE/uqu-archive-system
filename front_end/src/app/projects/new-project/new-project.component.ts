@@ -48,7 +48,7 @@ export class NewProjectComponent implements OnInit {
 
   onNextBtnClicked() {
     const form: IForm = {
-      title: this.title.value,
+      name: this.title.value,
       images: [...this.images]
     }
     this.formService.updateForm(form);
