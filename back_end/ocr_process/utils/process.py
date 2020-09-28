@@ -9,8 +9,8 @@ import numpy as np
 import re
 import codecs
 from pdf2image import convert_from_path, convert_from_bytes
-from google.cloud import vision
-from google.cloud.vision import types
+# from google.cloud import vision
+# from google.cloud.vision import types
 
 
 # from crop import crop
@@ -37,36 +37,36 @@ def preprocess_for_ocr(img, enhance=1):
     return img
 
 
-def google_ocr(path):
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_cloud_api.json'
-    # Instantiates a client
-    """Detects text in the file."""
-
-    client = vision.ImageAnnotatorClient()
-
-    # [START vision_python_migration_text_detection]
-    with io.open(path, 'rb') as image_file:
-        content = image_file.read()
-
-    image = vision.types.Image(content=content)
-
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    print('Texts:')
-
-    for text in texts:
-        print('\n"{}"'.format(text.description))
-
-        vertices = (['({},{})'.format(vertex.x, vertex.y)
-                     for vertex in text.bounding_poly.vertices])
-
-        print('bounds: {}'.format(','.join(vertices)))
-
-    if response.error.message:
-        raise Exception(
-            '{}\nFor more info on error messages, check: '
-            'https://cloud.google.com/apis/design/errors'.format(
-                response.error.message))
+# def google_ocr(path):
+#     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_cloud_api.json'
+#     # Instantiates a client
+#     """Detects text in the file."""
+#
+#     client = vision.ImageAnnotatorClient()
+#
+#     # [START vision_python_migration_text_detection]
+#     with io.open(path, 'rb') as image_file:
+#         content = image_file.read()
+#
+#     image = vision.types.Image(content=content)
+#
+#     response = client.text_detection(image=image)
+#     texts = response.text_annotations
+#     print('Texts:')
+#
+#     for text in texts:
+#         print('\n"{}"'.format(text.description))
+#
+#         vertices = (['({},{})'.format(vertex.x, vertex.y)
+#                      for vertex in text.bounding_poly.vertices])
+#
+#         print('bounds: {}'.format(','.join(vertices)))
+#
+#     if response.error.message:
+#         raise Exception(
+#             '{}\nFor more info on error messages, check: '
+#             'https://cloud.google.com/apis/design/errors'.format(
+#                 response.error.message))
 
 
 def ocr(img, oem=1, psm=3):

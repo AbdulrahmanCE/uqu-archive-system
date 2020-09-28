@@ -25,7 +25,7 @@ def text_corrector(_text):
     return _text
 
 
-def detect(img_path, debug=False, rotate=False):
+def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
     counter = 0
     flag = False
     if rotate:
@@ -35,9 +35,8 @@ def detect(img_path, debug=False, rotate=False):
         image = cv2.imread(img_path)
     # print(img_path, '*'*50)
     # Apply several filters to the image for better results in OCR
-    image = preprocess_for_ocr(image, 10)
-
-    print(image.shape)
+    image = preprocess_for_ocr(image, 1)
+    # print(image.shape)
     if debug:
         cv2.imwrite('./data/output-opt.png', image)
 
@@ -49,11 +48,11 @@ def detect(img_path, debug=False, rotate=False):
     # a dictionary
     text_dict = json.load(f)['boxes']
     # text_dict = SelectObjects().get_objects(image.copy())
-    text_blob_list = []
-    labels = []
-    for i in text_dict:
-        text_blob_list.append(i['box'])
-        labels.append(i['label'])
+    text_blob_list = boxes_and_labels['boxes']
+    labels = boxes_and_labels['labels']
+    # for i in text_dict:
+    #     text_blob_list.append(i['box'])
+    #     labels.append(i['label'])
 
     # text_blob_list = list(text_dict.values())
     text_location_list = []  # store all the metadata of every text box
@@ -73,30 +72,32 @@ def detect(img_path, debug=False, rotate=False):
         if debug:
             img_counter += 1
             word_image = crop(image, blob_cord, "ocr_process/result/{}.jpg".format(img_counter), 0.005, True)
-            print(blob_cord, img_counter)
+            # print(blob_cord, img_counter)
         else:
             word_image = crop(image, blob_cord, "./", 0.005, False)
         # word_image = preprocess_for_ocr(word_image)
         text = ocr(word_image, 1, 7)
 
         if debug:
-            print('before correction: ', text)
+            pass
+            # print('before correction: ', "text")
         text = text_corrector(text)
-        print('after correct: ', text)
-        if text:
-            center_x = (blob_cord[0] + blob_cord[2]) / 2
-            center_y = (blob_cord[1] + blob_cord[3]) / 2
-            box_center = (center_x, center_y)
+        # print('after correct: ', "text")
+        if not text:
+            text = ""
+        center_x = (blob_cord[0] + blob_cord[2]) / 2
+        center_y = (blob_cord[1] + blob_cord[3]) / 2
+        box_center = (center_x, center_y)
 
-            new_location = {
-                'label': labels[label_counter],
-                'bbox': blob_cord,
-                'text': text,
-                'box_center': box_center,
-                'string_type': string_type(text)
-            }
-            label_counter += 1
-            text_location_list.append(new_location)
+        new_location = {
+            'label': labels[label_counter],
+            'bbox': blob_cord,
+            'text': text,
+            'box_center': box_center,
+            'string_type': string_type(text)
+        }
+        label_counter += 1
+        text_location_list.append(new_location)
 
     # Spatial algorithm that maps all boxes according to their location and append the string
     for text_dict in text_location_list:
@@ -110,9 +111,8 @@ def detect(img_path, debug=False, rotate=False):
     return text_location_list
 
 
-def start(path):
-    output_text = detect(path, True)
-
+def start_ocr(path, boxes_and_labels):
+    output_text = detect(path, boxes_and_labels, debug=False)
     return output_text
 
 
