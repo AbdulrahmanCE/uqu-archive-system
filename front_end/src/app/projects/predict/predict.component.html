@@ -31,15 +31,28 @@
           <div class="col-12 d-flex mb-4" *ngIf="document">
             <span>تم اختيار المستند: {{ document.name }}</span>
           </div>
+
+          <div class="col-12" style="float: right;">
+            <mat-form-field class="w-100">
+              <mat-label>النموذج</mat-label>
+              <mat-select [(ngModel)]="model">
+                <mat-option *ngFor="let model of (models$ | async)" [value]="model.id">
+                  {{ model.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
           <div class="col d-flex">
             <button mat-raised-button color="accent" type="button" class="row cbtn" (click)="onPredictBtnClicked($event)"
-              [disabled]="predicting || !document"
+              [disabled]="(status !== 'finished' && status !== 'not uploaded') || !document || !model"
               title="اختر نموذجًا للبدء بالمسح">
-              <span *ngIf="predicting" class="col">جارِ المسح..</span>
-              <span *ngIf="predicting" class="col">
+              <span *ngIf="status === 'uploading'" class="col">جارِ رفع الملف..</span>
+              <span *ngIf="status === 'uploaded'" class="col">جارِ مسح الملف..</span>
+              <span *ngIf="status !== 'finished' && status !== 'not uploaded'" class="col">
                 <mat-spinner class="d-inline-block mt-2" diameter="20" color="primary"></mat-spinner>
               </span>
-              <span *ngIf="!predicting" class="col">امسح</span>
+              <span *ngIf="status === 'finished' || status === 'not uploaded'" class="col">امسح</span>
             </button>
           </div>
         </mat-card-content>
