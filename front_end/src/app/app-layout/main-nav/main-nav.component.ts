@@ -16,8 +16,6 @@ export class MainNavComponent implements OnInit {
 
   barLoading$: Observable<boolean> = this.progressBar.loading$;
 
-  studentLink = "/home";
-
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -32,10 +30,6 @@ export class MainNavComponent implements OnInit {
 
   ngOnInit() {
     this.checkHomePage();
-    let student_id = localStorage.getItem('student_id');
-    if(student_id) {
-      this.studentLink = "/students/" + student_id;
-    }
   }
 
   isHandSet() {
@@ -49,7 +43,7 @@ export class MainNavComponent implements OnInit {
   checkHomePage() {
     this.isHomePage = this.location.path() === '/home';
     this.location.onUrlChange(
-      x => this.isHomePage = x === '/home'
+      x => this.isHomePage = x === '#/home'
     );
   }
 
