@@ -83,8 +83,15 @@ export class FormLabelingComponent implements OnInit {
       .createForm()
       .toPromise()
       .then((f) => {
-        this.snack.open("تم رفع النموذج بنجاح", "نجاح");
-        this.router.navigateByUrl('/');
+        this.snack.open("تم رفع النموذج بنجاح", "نجاح", { duration: 5000 });
+        this.router.navigateByUrl("/");
+      })
+      .catch((error) => {
+        if (error.status === 409) {
+          this.snack.open("فشل التحميل: المستند موجود مسبقًا", "فشل", {
+            duration: 5000,
+          });
+        }
       });
   }
 

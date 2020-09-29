@@ -11,8 +11,31 @@
         <mat-card-header class="border-bottom">
           <mat-card-title>نتائج مسح النموذج</mat-card-title>
         </mat-card-header>
-        <mat-card-content class="p-1 p-md-4">
-
+        <mat-card-content class="p-1 p-md-4" style="overflow-x: auto;">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>الاسم</th>
+                <th>الكلية</th>
+                <th>القسم</th>
+                <th>المدة</th>
+                <th>الدرجة</th>
+                <th>البلد</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let res of (predictionResults$ | async); let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ res.name ? res.name.text : '-' }}</td>
+                <td>{{ res.collage ? res.collage.text : '-' }}</td>
+                <td>{{ res.department ? res.department.text : '-' }}</td>
+                <td>{{ res.duration ? res.duration.text : '-' }}</td>
+                <td>{{ res.degree ? res.degree.text : '-' }}</td>
+                <td>{{ res.country ? res.country.text : '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
         </mat-card-content>
       </div>
     </div>
