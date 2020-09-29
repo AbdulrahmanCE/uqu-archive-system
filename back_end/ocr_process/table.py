@@ -42,11 +42,11 @@ def detect(img_path, boxes_and_labels, debug=False, rotate=False, ):
 
     # detecting the text
     # text_blob_list = text_detection
-    f = open('ocr_process/boxs.json', )
+    # f = open('ocr_process/boxs.json', )
 
     # returns JSON object as
     # a dictionary
-    text_dict = json.load(f)['boxes']
+    # text_dict = json.load(f)['boxes']
     # text_dict = SelectObjects().get_objects(image.copy())
     text_blob_list = boxes_and_labels['boxes']
     labels = boxes_and_labels['labels']
