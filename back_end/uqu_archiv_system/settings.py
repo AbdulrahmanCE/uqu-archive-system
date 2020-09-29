@@ -24,7 +24,7 @@ SECRET_KEY = 'w)hg(h3=c#+hr=ny(thzkdx_y#0k3(%0kz5yl()g7h()$jx7(7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
